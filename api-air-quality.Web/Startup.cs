@@ -1,3 +1,7 @@
+using api_air_quality.Web.Application.Common;
+using api_air_quality.Web.Application.Services.Countries.Queries;
+using api_air_quality.Web.Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +28,8 @@ namespace api_air_quality.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMediatR(typeof(GetAllCountriesQuery).Assembly);
+            services.AddScoped<IApiService, ApiService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
