@@ -12,12 +12,12 @@ namespace api_air_quality.Web.Infrastructure.Services
 {
     public class ApiService : IApiService
     {
-        // https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/countries
+        private readonly string baseUrl = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/";
 
         public async Task<Rootobject> GetAllCountriesAsync(GetAllCountriesQuery query)
         {
             HttpClient client = new HttpClient();
-            var content = await client.GetStringAsync("https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/countries");
+            var content = await client.GetStringAsync($"{baseUrl}countries");
             var countries = JsonConvert.DeserializeObject<Rootobject>(content);
             return countries;
         }
