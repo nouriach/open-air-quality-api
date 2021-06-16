@@ -1,4 +1,7 @@
-﻿using api_air_quality.Web.Models;
+﻿using api_air_quality.Web.Application.Services.Countries.Queries;
+using api_air_quality.Web.Application.Services.Countries.ViewModels;
+using api_air_quality.Web.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,18 +12,27 @@ using System.Threading.Tasks;
 
 namespace api_air_quality.Web.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            GetAllCountriesQuery query = new GetAllCountriesQuery();
+
+            var countries = await _mediator.Send(query);
+
+            CountriesViewModel vm = new CountriesViewModel(countries);
+
+            return View(vm);
         }
 
         public IActionResult Privacy()
