@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static api_air_quality.Web.Domain.Models.Countries;
 
 namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CountriesTests.ViewModelsTests
 {
@@ -21,19 +22,19 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CountriesTest
         public static void GivenConstructor_WithApiResponse_CountriesCollectionHasdCorrectCount()
         {
             //Arrange
-            Rootobject content = new Rootobject()
+            Countries content = new Countries()
             {
-                results = new Result[]
+                Result = new Country[]
                 {
-                    new Result
+                    new Country
                     {
                         name = "Lorum",
                     },
-                    new Result
+                    new Country
                     {
                         name = "Ipsum"
                     },
-                    new Result
+                    new Country
                     {
                         name = "Mori"
                     }
@@ -44,7 +45,7 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CountriesTest
             CountriesViewModel vm = new CountriesViewModel(content);
 
             //Assert
-            var expected = content.results;
+            var expected = content.Result;
             var actual = vm.Countries;
 
             Assert.AreEqual(expected.Length, actual.Count()); 

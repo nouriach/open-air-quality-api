@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ApplicationTests\ServicesTests\CitiesTests\ViewModelTests\" />
     <Folder Include="ApplicationTests\ServicesTests\CountriesTests\QueriesTests\" />
   </ItemGroup>
 
