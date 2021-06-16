@@ -1,4 +1,5 @@
 using api_air_quality.Web.Application.Common;
+using api_air_quality.Web.Application.Services.Cities.Queries;
 using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Infrastructure.Services;
 using MediatR;
@@ -29,6 +30,8 @@ namespace api_air_quality.Web
         {
             services.AddControllersWithViews();
             services.AddMediatR(typeof(GetAllCountriesQuery).Assembly);
+            services.AddMediatR(typeof(GetCitiesByCountryQuery).Assembly);
+
             services.AddScoped<IApiService, ApiService>();
         }
 
