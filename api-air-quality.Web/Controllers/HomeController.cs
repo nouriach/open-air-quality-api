@@ -1,5 +1,8 @@
-﻿using api_air_quality.Web.Application.Services.Countries.Queries;
+﻿using api_air_quality.Web.Application.Services.Cities.Queries;
+using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Application.Services.Countries.ViewModels;
+using api_air_quality.Web.Application.Services.Country.Queries;
+using api_air_quality.Web.Application.Services.Country.ViewModels;
 using api_air_quality.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +38,12 @@ namespace api_air_quality.Web.Controllers
             return View(vm);
         }
 
+        public async Task<IActionResult> GetCitiesByCountry(GetCitiesByCountryQuery query)
+        {
+            var country = await _mediator.Send(query);
+            CountryViewModel vm = new CountryViewModel(country);
+            return View(vm);
+        }
         public IActionResult Privacy()
         {
             return View();
