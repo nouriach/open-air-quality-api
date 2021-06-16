@@ -24,7 +24,7 @@ namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
             //Arrange
             IApiService service = new ApiService();
             GetAllCountriesQuery query = new GetAllCountriesQuery();
-            Rootobject expected = new Rootobject();
+            Countries expected = new Countries();
             
             //Act
             var actual = await service.GetAllCountriesAsync(query);
