@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace api_air_quality.Web.Application.Services.Countries.Handlers
 {
-    public class GetAllCountriesQueryHandler : IRequestHandler<GetAllCountriesQuery, Domain.Models.Rootobject>
+    public class GetAllCountriesQueryHandler : IRequestHandler<GetAllCountriesQuery, Domain.Models.Countries>
     {
         private readonly IApiService _service;
 
         public GetAllCountriesQueryHandler(IApiService service)
         {
-            // dependency injection here to speak to a api service within infrastructure
             _service = service;
         }
-        public async Task<Domain.Models.Rootobject> Handle(GetAllCountriesQuery request, CancellationToken cancellationToken)
+        public async Task<Domain.Models.Countries> Handle(GetAllCountriesQuery request, CancellationToken cancellationToken)
         {
             var countries = await _service.GetAllCountriesAsync(request);
             return countries;

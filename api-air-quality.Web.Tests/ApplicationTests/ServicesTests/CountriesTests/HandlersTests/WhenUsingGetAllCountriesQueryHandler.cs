@@ -26,7 +26,7 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CountriesTest
             //Arrange
             Mock<IApiService> service = new Mock<IApiService>();
             GetAllCountriesQuery query = new GetAllCountriesQuery();
-            Rootobject countries = new Rootobject();
+            Countries countries = new Countries();
             service.Setup(sut => sut.GetAllCountriesAsync(query)).ReturnsAsync(countries);
 
             //Act

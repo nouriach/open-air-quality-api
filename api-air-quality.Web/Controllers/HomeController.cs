@@ -1,5 +1,10 @@
-﻿using api_air_quality.Web.Application.Services.Countries.Queries;
+﻿using api_air_quality.Web.Application.Services;
+using api_air_quality.Web.Application.Services.Cities.Queries;
+using api_air_quality.Web.Application.Services.Cities.ViewModels;
+using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Application.Services.Countries.ViewModels;
+using api_air_quality.Web.Application.Services.Country.Queries;
+using api_air_quality.Web.Application.Services.Country.ViewModels;
 using api_air_quality.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,10 +34,31 @@ namespace api_air_quality.Web.Controllers
             GetAllCountriesQuery query = new GetAllCountriesQuery();
 
             var countries = await _mediator.Send(query);
+            CountriesViewModel countriesViewModel = new CountriesViewModel(countries);
 
-            CountriesViewModel vm = new CountriesViewModel(countries);
+            HomepageViewModel hvm = new HomepageViewModel(null, countriesViewModel);
 
-            return View(vm);
+            return View(hvm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string countryCodeRequest)
+        {
+            GetCitiesByCountryQuery query = new GetCitiesByCountryQuery
+            {
+                CountryCode = countryCodeRequest
+            };
+
+            var cities = await _mediator.Send(query);
+            CitiesViewModel citiesViewModel = new CitiesViewModel(cities);
+
+            GetAllCountriesQuery countriesQuery = new GetAllCountriesQuery();
+            var countries = await _mediator.Send(countriesQuery);
+            CountriesViewModel countriesViewModel = new CountriesViewModel(countries);
+
+            HomepageViewModel hvm = new HomepageViewModel(citiesViewModel, countriesViewModel);
+
+            return View(hvm);
         }
 
         public IActionResult Privacy()

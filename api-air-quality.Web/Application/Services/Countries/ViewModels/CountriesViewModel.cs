@@ -8,23 +8,27 @@ namespace api_air_quality.Web.Application.Services.Countries.ViewModels
 {
     public class CountriesViewModel
     {
-        public CountriesViewModel(Rootobject result)
+        public CountriesViewModel()
         {
-            Countries = AddCountries(result.results);
+
+        }
+        public CountriesViewModel(Domain.Models.Countries countriesInfo)
+        {
+            Countries = AddCountries(countriesInfo);
         }
 
-        private IEnumerable<string> AddCountries(Result[] results)
+        private Dictionary<string, string> AddCountries(Domain.Models.Countries countriesInfo)
         {
-            Countries = new List<string>();
-            List<string> names = new List<string>();
+            Dictionary<string, string> names = new Dictionary<string, string>();
 
-            foreach(var country in results)
+            foreach(var country in countriesInfo.Result)
             {
-                names.Add(country.name);
+                names.Add(country.code, country.name);
             }
             return names;
         }
 
-        public IEnumerable<string> Countries { get; set; }
+        public Dictionary<string, string> Countries { get; private set; }
+
     }
 }
