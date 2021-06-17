@@ -11,7 +11,7 @@ namespace api_air_quality.Web.Application.Common
     public interface IApiService
     {
         Task<Domain.Models.Countries> GetAllCountriesAsync(GetAllCountriesQuery query);
-        Task<Domain.Models.Rootobject> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query);
+        Task<Domain.Models.Cities> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query);
 
     }
 }

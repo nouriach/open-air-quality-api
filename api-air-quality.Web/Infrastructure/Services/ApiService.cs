@@ -24,10 +24,12 @@ namespace api_air_quality.Web.Infrastructure.Services
             return countries;
         }
 
-        public Task<Rootobject> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query)
+        public async Task<Cities> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query)
         {
-            // api: https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/cities?country_id=COUNTRYCODE
-            throw new NotImplementedException();
+            HttpClient client = new HttpClient();
+            var content = await client.GetStringAsync($"{baseUrl}cities?country_id{query.CountryCode}");
+            var cities = JsonConvert.DeserializeObject<Cities>(content);
+            return cities;
         }
     }
 }
