@@ -1,4 +1,5 @@
 ﻿using api_air_quality.Web.Application.Common;
+using api_air_quality.Web.Application.Services.Cities.Queries;
 using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Domain.Models;
 using api_air_quality.Web.Infrastructure.Services;
@@ -28,6 +29,21 @@ namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
             
             //Act
             var actual = await service.GetAllCountriesAsync(query);
+
+            //Assert
+            Assert.AreEqual(expected.GetType(), actual.GetType());
+        }
+
+        [Test]
+        public async Task ThenGetAllCitiesByCountry_WithCountryCode_ReturnCorrectObject()
+        {
+            //Arrange
+            IApiService service = new ApiService();
+            GetCitiesByCountryQuery query = new GetCitiesByCountryQuery() { CountryCode = "AD" };
+            Cities expected = new Cities();
+
+            //Act
+            var actual = await service.GetCitiesByCountryCodeAsync(query);
 
             //Assert
             Assert.AreEqual(expected.GetType(), actual.GetType());

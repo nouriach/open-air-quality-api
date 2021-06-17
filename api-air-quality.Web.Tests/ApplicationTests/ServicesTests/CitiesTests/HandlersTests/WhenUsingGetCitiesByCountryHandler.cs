@@ -20,7 +20,7 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CitiesTests.H
         // assert
 
         [Test]
-        public async Task QueryHandler_ReceivesQueryWithCountrCode_ThenReturnsCorrectObject()
+        public async Task QueryHandler_ReceivesQueryWithCountryCode_ThenReturnsCorrectObject()
         {
             // arrange
             Mock<IApiService> service = new Mock<IApiService>();
