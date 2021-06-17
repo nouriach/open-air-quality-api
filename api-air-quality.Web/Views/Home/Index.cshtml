@@ -15,7 +15,7 @@
 
             @foreach (var country in Model.Countries.Countries)
             {
-                <option value="@country.Key" >@country.Value</option>
+                <option value="@country.Key">@country.Value</option>
             }
         </select>
         <div class="form-group">
@@ -27,9 +27,20 @@
 @{
     if (Model.Cities != null)
     {
-        @foreach (var city in Model.Cities.Cities)
-        {
-            <p>@city</p>
-        }
+
+        <div class="container">
+            <form method="post" asp-controller="Home" asp-action="Index">
+                <select name="cityCodeRequest">
+
+                    @foreach (var city in Model.Cities.Cities)
+                    {
+                        <option value="@city">@city</option>
+                    }
+                </select>
+                <div class="form-group">
+                    <input type="submit" value="Select City" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     }
 }
