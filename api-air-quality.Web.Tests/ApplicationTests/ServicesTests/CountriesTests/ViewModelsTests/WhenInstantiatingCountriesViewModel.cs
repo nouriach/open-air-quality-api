@@ -29,14 +29,17 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CountriesTest
                     new Country
                     {
                         name = "Lorum",
+                        code = "LO"
                     },
                     new Country
                     {
-                        name = "Ipsum"
+                        name = "Ipsum",
+                        code = "IP"
                     },
                     new Country
                     {
-                        name = "Mori"
+                        name = "Mori",
+                        code = "MO"
                     }
                 }
             };
@@ -49,6 +52,46 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CountriesTest
             var actual = vm.Countries;
 
             Assert.AreEqual(expected.Length, actual.Count()); 
+        }
+
+        [Test]
+        public static void GivenConstructor_WithApiResponse_CountriesDictionaryIsCreated()
+        {
+            //Arrange
+            Countries content = new Countries()
+            {
+                Result = new Country[]
+                {
+                    new Country
+                    {
+                        name = "Lorum",
+                        code = "LO"
+                    },
+                    new Country
+                    {
+                        name = "Ipsum",
+                        code = "IP"
+                    },
+                    new Country
+                    {
+                        name = "Mori",
+                        code = "MO"
+                    }
+                }
+            };
+
+            //Act
+            CountriesViewModel vm = new CountriesViewModel(content);
+            var expected = content.Result;
+            var actual = vm.Countries;
+
+            // Assert
+            for(var i = 0; i < expected.Length; i++)
+            {
+                var country = actual.Where(x => x.Key == expected[i].code).FirstOrDefault();
+                Assert.AreEqual(expected[i].code, country.Key);
+                Assert.AreEqual(expected[i].name, country.Value);
+            }
         }
     }
 }
