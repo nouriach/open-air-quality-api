@@ -1,12 +1,9 @@
 ﻿using api_air_quality.Web.Application.Common;
+using api_air_quality.Web.Application.Services.AirQuality.Queries;
 using api_air_quality.Web.Application.Services.Cities.Queries;
 using api_air_quality.Web.Application.Services.Countries.Queries;
-using api_air_quality.Web.Application.Services.Country.Queries;
 using api_air_quality.Web.Domain.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -15,6 +12,13 @@ namespace api_air_quality.Web.Infrastructure.Services
     public class ApiService : IApiService
     {
         private readonly string baseUrl = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/";
+
+        public Task<AirQuality> GetAirQualityForCity(GetAirQualityForCityQuery query)
+        {
+            // api: https://docs.openaq.org/v2/latest?city={query.City}
+
+            throw new System.NotImplementedException();
+        }
 
         public async Task<Countries> GetAllCountriesAsync(GetAllCountriesQuery query)
         {

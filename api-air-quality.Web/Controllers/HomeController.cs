@@ -3,16 +3,11 @@ using api_air_quality.Web.Application.Services.Cities.Queries;
 using api_air_quality.Web.Application.Services.Cities.ViewModels;
 using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Application.Services.Countries.ViewModels;
-using api_air_quality.Web.Application.Services.Country.Queries;
-using api_air_quality.Web.Application.Services.Country.ViewModels;
 using api_air_quality.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace api_air_quality.Web.Controllers
