@@ -27,7 +27,7 @@ namespace api_air_quality.Web.Infrastructure.Services
         public async Task<Cities> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query)
         {
             HttpClient client = new HttpClient();
-            var content = await client.GetStringAsync($"{baseUrl}cities?country_id{query.CountryCode}");
+            var content = await client.GetStringAsync($"{baseUrl}cities?country_id={query.CountryCode}");
             var cities = JsonConvert.DeserializeObject<Cities>(content);
             return cities;
         }

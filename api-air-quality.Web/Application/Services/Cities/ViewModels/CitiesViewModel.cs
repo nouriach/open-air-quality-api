@@ -7,6 +7,10 @@ namespace api_air_quality.Web.Application.Services.Cities.ViewModels
 {
     public class CitiesViewModel
     {
+        public CitiesViewModel()
+        {
+
+        }
         public CitiesViewModel(Domain.Models.Cities cityInfo)
         {
             Cities = AddCities(cityInfo);
