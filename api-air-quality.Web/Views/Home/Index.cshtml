@@ -1,4 +1,4 @@
-﻿@model api_air_quality.Web.Application.Services.Countries.ViewModels.CountriesViewModel;
+﻿@model api_air_quality.Web.Application.Services.HomepageViewModel;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,9 +9,27 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@{ 
-    foreach(var country in Model.Countries)
+<div class="container">
+    <form method="post" asp-controller="Home" asp-action="Index">
+        <select name="countryCodeRequest">
+
+            @foreach (var country in Model.Countries.Countries)
             {
-                <p>@country</p>
+                <option value="@country.Key" >@country.Value</option>
             }
+        </select>
+        <div class="form-group">
+            <input type="submit" value="Select Country" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@{
+    if (Model.Cities != null)
+    {
+        @foreach (var city in Model.Cities.Cities)
+        {
+            <p>@city</p>
+        }
+    }
 }
