@@ -11,7 +11,7 @@ namespace api_air_quality.Web.Application.Services.Cities.Handlers
 {
     public class GetCitiesByCountryQueryHandler : IRequestHandler<GetCitiesByCountryQuery, Domain.Models.Cities>
     {
-        private readonly object _service;
+        private readonly IApiService _service;
 
         public GetCitiesByCountryQueryHandler(IApiService service)
         {
@@ -19,7 +19,8 @@ namespace api_air_quality.Web.Application.Services.Cities.Handlers
         }
         public Task<Domain.Models.Cities> Handle(GetCitiesByCountryQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var cities = _service.GetCitiesByCountryCodeAsync(request);
+            return cities;
         }
     }
 }

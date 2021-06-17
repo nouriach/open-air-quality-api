@@ -12,7 +12,6 @@ namespace api_air_quality.Web.Application.Services.Countries.Handlers
 
         public GetAllCountriesQueryHandler(IApiService service)
         {
-            // dependency injection here to speak to a api service within infrastructure
             _service = service;
         }
         public async Task<Domain.Models.Countries> Handle(GetAllCountriesQuery request, CancellationToken cancellationToken)
