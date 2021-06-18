@@ -27,7 +27,7 @@ namespace api_air_quality.Web.Domain.Models
         public class Measurement
         {
             public string parameter { get; set; }
-            public int value { get; set; }
+            public string value { get; set; }
             public DateTime lastUpdated { get; set; }
             public string unit { get; set; }
         }

@@ -13,9 +13,10 @@ namespace api_air_quality.Web.Application.Services.AirQuality.Handlers
         {
             _service = service;
         }
-        public Task<Domain.Models.AirQuality> Handle(GetAirQualityForCityQuery request, CancellationToken cancellationToken)
+        public async Task<Domain.Models.AirQuality> Handle(GetAirQualityForCityQuery request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var result = await _service.GetAirQualityForCityAsync(request);
+            return result;
         }
     }
 }

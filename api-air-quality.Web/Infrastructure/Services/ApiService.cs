@@ -13,11 +13,14 @@ namespace api_air_quality.Web.Infrastructure.Services
     {
         private readonly string baseUrl = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/";
 
-        public Task<AirQuality> GetAirQualityForCity(GetAirQualityForCityQuery query)
+        public async Task<AirQuality> GetAirQualityForCityAsync(GetAirQualityForCityQuery query)
         {
             // api: https://docs.openaq.org/v2/latest?city={query.City}
 
-            throw new System.NotImplementedException();
+            HttpClient client = new HttpClient();
+            var content = await client.GetStringAsync($"{baseUrl}latest?city={query.CityName}&country={query.CountryCode}");
+            var airQualityData = JsonConvert.DeserializeObject<AirQuality>(content);
+            return airQualityData;
         }
 
         public async Task<Countries> GetAllCountriesAsync(GetAllCountriesQuery query)

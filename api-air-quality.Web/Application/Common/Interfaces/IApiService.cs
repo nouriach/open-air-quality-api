@@ -9,6 +9,6 @@ namespace api_air_quality.Web.Application.Common
     {
         Task<Domain.Models.Countries> GetAllCountriesAsync(GetAllCountriesQuery query);
         Task<Domain.Models.Cities> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query);
-        Task<Domain.Models.AirQuality> GetAirQualityForCity(GetAirQualityForCityQuery query);
+        Task<Domain.Models.AirQuality> GetAirQualityForCityAsync(GetAirQualityForCityQuery query);
     }
 }
