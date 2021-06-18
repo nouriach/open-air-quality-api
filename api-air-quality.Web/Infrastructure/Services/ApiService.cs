@@ -15,8 +15,6 @@ namespace api_air_quality.Web.Infrastructure.Services
 
         public async Task<AirQuality> GetAirQualityForCityAsync(GetAirQualityForCityQuery query)
         {
-            // api: https://docs.openaq.org/v2/latest?city={query.City}
-
             HttpClient client = new HttpClient();
             var content = await client.GetStringAsync($"{baseUrl}latest?city={query.CityName}&country={query.CountryCode}");
             var airQualityData = JsonConvert.DeserializeObject<AirQuality>(content);
