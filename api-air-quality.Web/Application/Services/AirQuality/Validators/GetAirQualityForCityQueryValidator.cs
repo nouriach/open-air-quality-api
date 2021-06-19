@@ -1,4 +1,4 @@
-﻿]using api_air_quality.Web.Application.Services.AirQuality.Queries;
+﻿using api_air_quality.Web.Application.Services.AirQuality.Queries;
 using FluentValidation;
 
 
