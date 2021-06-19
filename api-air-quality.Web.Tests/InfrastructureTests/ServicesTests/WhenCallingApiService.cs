@@ -1,13 +1,10 @@
 ﻿using api_air_quality.Web.Application.Common;
+using api_air_quality.Web.Application.Services.AirQuality.Queries;
 using api_air_quality.Web.Application.Services.Cities.Queries;
 using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Domain.Models;
 using api_air_quality.Web.Infrastructure.Services;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
@@ -47,6 +44,30 @@ namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
 
             //Assert
             Assert.AreEqual(expected.GetType(), actual.GetType());
+        }
+
+        [Test]
+        [TestCase("US", "Akron")]
+        [TestCase("US", "BERNALILLO")]
+        [TestCase("US", "BIG HORN")]
+
+        public async Task ThenGetAirQualityForCity_WithCountryCodeAndCity_ReturnCorrectObect(string country, string city)
+        {
+            //Arrange
+            IApiService service = new ApiService();
+            GetAirQualityForCityQuery query = new GetAirQualityForCityQuery()
+            {
+                CityName = city,
+                CountryCode = country
+            };
+            AirQuality expected = new AirQuality();
+
+            //Act
+            var actual = await service.GetAirQualityForCityAsync(query);
+
+            //Assert
+            Assert.AreEqual(expected.GetType(), actual.GetType());
+
         }
     }
 }

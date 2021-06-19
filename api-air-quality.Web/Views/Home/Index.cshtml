@@ -15,7 +15,7 @@
 
             @foreach (var country in Model.Countries.Countries)
             {
-                <option value="@country.Key" >@country.Value</option>
+                <option value="@country.Key">@country.Value</option>
             }
         </select>
         <div class="form-group">
@@ -27,9 +27,46 @@
 @{
     if (Model.Cities != null)
     {
-        @foreach (var city in Model.Cities.Cities)
+    <div>
+        <p>All cities in @Model.Cities.Country</p>
+        <p>Total cities: @Model.Cities.CitiesCount</p>
+    </div>
+    <div class="row">
+        @foreach (var test in Model.Cities.Cities)
         {
-            <p>@city</p>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@test</h5>
+                        <p class="card-text">The data for @test was last updated: @Model.Cities.LastUpdated</p>
+                        <a asp-controller="Home" asp-action="MoreInfo" asp-route-countryCodeRequest="@Model.Cities.Country" asp-route-cityRequest="@test" class="btn btn-primary">More Info</a>
+                    </div>
+                </div>
+            </div>
         }
-    }
-}
+    </div>
+        }
+            }
+
+            @{
+                if (Model.Cities != null)
+                {
+
+                    <div class="container">
+                        <p>All cities in @Model.Cities.Country</p>
+                        <p>Total cities: @Model.Cities.CitiesCount</p>
+                        <form method="post" asp-controller="Home" asp-action="Index">
+                            <select name="cityCodeRequest">
+
+                                @foreach (var city in Model.Cities.Cities)
+                                {
+                                    <option value="@city">@city</option>
+                                }
+                            </select>
+                            <div class="form-group">
+                                <input type="submit" value="Select City" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                }
+            }

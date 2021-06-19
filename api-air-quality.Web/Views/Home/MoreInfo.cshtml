@@ -1,0 +1,35 @@
+﻿@model api_air_quality.Web.Application.Services.AirQuality.ViewModels.AirQualityViewModel;
+
+
+@foreach (var result in Model.Results)
+{
+    <p>@result.City</p>
+    <p>@result.Country</p>
+    <p>@result.Location</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Parameter</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Value</th>
+                <th scope="col">Last updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var measurement in result.Measurements)
+            {
+            <tr>
+                <th scope="row">1</th>
+                <td>@measurement.parameter</td>
+                <td>@measurement.unit</td>
+                <td>@measurement.value</td>
+                <td>@measurement.lastUpdated</td>
+            </tr>
+             }
+        </tbody>
+    </table>
+}
+
+

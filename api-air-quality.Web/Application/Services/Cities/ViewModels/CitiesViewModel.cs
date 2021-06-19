@@ -15,6 +15,7 @@ namespace api_air_quality.Web.Application.Services.Cities.ViewModels
         {
             Cities = AddCities(cityInfo);
             Country = cityInfo.results[0].country;
+            LastUpdated = cityInfo.results[0].lastUpdated;
         }
 
         private List<string> AddCities(Domain.Models.Cities cityInfo)
@@ -32,5 +33,6 @@ namespace api_air_quality.Web.Application.Services.Cities.ViewModels
         public IEnumerable<string> Cities { get; private set; }
         public string Country { get; private set; }
         public int CitiesCount => Cities.Count();
+        public DateTime LastUpdated { get; set; }
     }
 }
