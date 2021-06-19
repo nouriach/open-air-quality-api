@@ -35,6 +35,7 @@ namespace api_air_quality.Web
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddHttpClient<IApiService, ApiService>();
 
         }
 

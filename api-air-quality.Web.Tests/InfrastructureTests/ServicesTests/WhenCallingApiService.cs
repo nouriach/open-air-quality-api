@@ -5,22 +5,31 @@ using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Domain.Models;
 using api_air_quality.Web.Infrastructure.Services;
 using NUnit.Framework;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
 {
+    [TestFixture]
     public class WhenCallingApiService
     {
-
         //Arrange
         //Act
         //Assert
+        private HttpClient _httpClient;
+
+        public void TestSetup()
+        {
+
+            _httpClient = new HttpClient();
+        }
 
         [Test]
         public async Task ThenGetAllCountries_WithNoQueryParams_ReturnCorrectObject()
         {
             //Arrange
-            IApiService service = new ApiService();
+            TestSetup();
+            IApiService service = new ApiService(_httpClient);
             GetAllCountriesQuery query = new GetAllCountriesQuery();
             Countries expected = new Countries();
             
@@ -35,7 +44,8 @@ namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
         public async Task ThenGetAllCitiesByCountry_WithCountryCode_ReturnCorrectObject()
         {
             //Arrange
-            IApiService service = new ApiService();
+            TestSetup();
+            IApiService service = new ApiService(_httpClient);
             GetCitiesByCountryQuery query = new GetCitiesByCountryQuery() { CountryCode = "AD" };
             Cities expected = new Cities();
 
@@ -54,7 +64,8 @@ namespace api_air_quality.Web.Tests.InfrastructureTests.ServicesTests
         public async Task ThenGetAirQualityForCity_WithCountryCodeAndCity_ReturnCorrectObect(string country, string city)
         {
             //Arrange
-            IApiService service = new ApiService();
+            TestSetup();
+            IApiService service = new ApiService(_httpClient);
             GetAirQualityForCityQuery query = new GetAirQualityForCityQuery()
             {
                 CityName = city,
