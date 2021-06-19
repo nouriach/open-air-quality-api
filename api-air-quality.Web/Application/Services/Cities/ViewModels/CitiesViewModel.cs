@@ -9,23 +9,26 @@ namespace api_air_quality.Web.Application.Services.Cities.ViewModels
     {
         public CitiesViewModel()
         {
-
+            Cities = new List<string>();
         }
         public CitiesViewModel(Domain.Models.Cities cityInfo)
         {
             Cities = AddCities(cityInfo);
-            Country = cityInfo.results[0].country;
-            LastUpdated = cityInfo.results[0].lastUpdated;
+            Country = cityInfo.results.Length > 0 ? cityInfo.results[0].country : null;
+            LastUpdated = cityInfo.results.Length > 0 ? cityInfo.results[0].lastUpdated : null;
         }
 
         private List<string> AddCities(Domain.Models.Cities cityInfo)
         {
             Cities = new List<string>();
             List<string> cities = new List<string>();
-
-            foreach(var result in cityInfo.results)
+            if (cityInfo.results.Length > 0)
             {
-                cities.Add(result.city);
+                foreach(var result in cityInfo.results)
+                {
+                    cities.Add(result.city);
+                }
+                return cities;
             }
             return cities;
         }
@@ -33,6 +36,6 @@ namespace api_air_quality.Web.Application.Services.Cities.ViewModels
         public IEnumerable<string> Cities { get; private set; }
         public string Country { get; private set; }
         public int CitiesCount => Cities.Count();
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; private set; }
     }
 }
