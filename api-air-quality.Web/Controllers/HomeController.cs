@@ -8,7 +8,6 @@ using api_air_quality.Web.Application.Services.Countries.ViewModels;
 using api_air_quality.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -24,37 +23,32 @@ namespace api_air_quality.Web.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string countryCodeRequest, string order)
         {
             GetAllCountriesQuery query = new GetAllCountriesQuery();
-
             var countries = await _mediator.Send(query);
             CountriesViewModel countriesViewModel = new CountriesViewModel(countries);
 
-            HomepageViewModel hvm = new HomepageViewModel(countriesViewModel);
-
-            return View(hvm);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Index(string countryCodeRequest)
-        {
-            GetCitiesByCountryQuery query = new GetCitiesByCountryQuery
+            if(countryCodeRequest != null)
             {
-                CountryCode = countryCodeRequest
-            };
+                GetCitiesByCountryQuery citiesQuery = new GetCitiesByCountryQuery
+                {
+                    CountryCode = countryCodeRequest,
+                    Order = order != null ? order : null
+                };
 
-            var cities = await _mediator.Send(query);
-            CitiesViewModel citiesViewModel = new CitiesViewModel(cities);
+                var cities = await _mediator.Send(citiesQuery);
+                CitiesViewModel citiesViewModel = new CitiesViewModel(cities);
+                HomepageViewModel homepageViewModel = new HomepageViewModel(citiesViewModel, countriesViewModel);
+                return View(homepageViewModel);
+            }
 
-            GetAllCountriesQuery countriesQuery = new GetAllCountriesQuery();
-            var countries = await _mediator.Send(countriesQuery);
-            CountriesViewModel countriesViewModel = new CountriesViewModel(countries);
-
-            HomepageViewModel hvm = new HomepageViewModel(citiesViewModel, countriesViewModel);
-
+            HomepageViewModel hvm = new HomepageViewModel(countriesViewModel);
             return View(hvm);
         }
+
+        public IActionResult RequestCities(string countryCodeRequest) => RedirectToAction(nameof(Index), new { countryCodeRequest });
+        public IActionResult Order(string countryCodeRequest, string order) => RedirectToAction(nameof(Index), new { countryCodeRequest, order });
 
         public async Task<IActionResult> MoreInfo(string countryCodeRequest, string cityRequest)
         {
