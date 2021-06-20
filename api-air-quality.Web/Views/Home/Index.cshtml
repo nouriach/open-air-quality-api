@@ -12,30 +12,32 @@
 
 <div class="text-center">
     <h1 class="display-4">Open Air Quality API</h1>
-    <p>Discover the Air Quality of Cities Around the World</a>.</p>
+    <p>Discover the Air Quality of Cities Around the World.</p>
 </div>
 
-<div class="container">
-    <form method="post" asp-controller="Home" asp-action="Index" class="p-4 d-flex justify-content-center align-items-baseline">
-        <select name="countryCodeRequest">
-
-            @foreach (var country in Model.Countries.Countries)
-            {
-                <option value="@country.Key">@country.Value</option>
-            }
-        </select>
-        <div class="form-group pl-4">
-            <input type="submit" value="Select Country" class="btn btn-primary" />
+<div class="dropdown d-flex align-items-center flex-column">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Country
+    </button>
+    @if (!String.IsNullOrEmpty(Model.SelectedCountry))
+    {
+        <div class="p-4">
+            <a class="btn btn-primary btn-sm" asp-controller="Home" asp-action="Order" asp-route-order="asc" asp-route-countrycodeRequest="@Model.Cities.Country" role="button">Sort By Ascending</a>
+            <a class="btn btn-primary btn-sm" asp-route-order="desc" asp-route-countrycodeRequest="@Model.Cities.Country" role="button">Sort By Descending</a>
         </div>
-    </form>
+    }
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        @foreach (var country in Model.Countries.Countries)
+        {
+            <a class="dropdown-item" asp-controller="Home" asp-action="RequestCities" asp-route-countrycodeRequest="@country.Key">@country.Value</a>
+        }
+    </div>
 </div>
 
 @{
     if (Model.Cities != null)
     {
     <div class="d-flex align-items-center flex-column">
-
-
         @{
             if (Model.Cities.Country == null)
             {

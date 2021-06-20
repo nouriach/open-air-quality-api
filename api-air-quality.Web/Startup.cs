@@ -36,7 +36,10 @@ namespace api_air_quality.Web
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddHttpClient<IApiService, ApiService>();
-
+            services.AddHttpClient("open-air-quality-api", oaq =>
+            {
+                oaq.BaseAddress = new System.Uri(Configuration.GetValue<string>("OpenAirQualityApiBaseUrl"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
