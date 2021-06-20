@@ -1,13 +1,29 @@
 ﻿@model api_air_quality.Web.Application.Services.AirQuality.ViewModels.AirQualityViewModel;
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Select Country</a></li>
+        <li class="breadcrumb-item active" aria-current="page">City Air Quality</li>
+    </ol>
+</nav>
 
 @foreach (var result in Model.Results)
 {
-    <p>@result.City</p>
-    <p>@result.Country</p>
-    <p>@result.Location</p>
+    <div class="p-4 d-flex align-items-center flex-column">
+        @{ 
+            if(result.City == null)
+                {
+                    <h3>No results</h3>
+                }
+            else
+                {
+                    <h3>A breakdown of results for @result.City, @result.Country</h3>
+                }
+        }
+        <p>Location: @result.Location</p>
+    </div>
 
-    <table class="table">
+    <table class="table table border border-success">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -21,7 +37,7 @@
             @foreach (var measurement in result.Measurements)
             {
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">Results</th>
                 <td>@measurement.parameter</td>
                 <td>@measurement.unit</td>
                 <td>@measurement.value</td>

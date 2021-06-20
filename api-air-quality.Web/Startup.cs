@@ -1,19 +1,17 @@
 using api_air_quality.Web.Application.Common;
+using api_air_quality.Web.Application.PipelineBehaviour;
 using api_air_quality.Web.Application.Services.AirQuality.Queries;
 using api_air_quality.Web.Application.Services.Cities.Queries;
 using api_air_quality.Web.Application.Services.Countries.Queries;
 using api_air_quality.Web.Infrastructure.Services;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace api_air_quality.Web
 {
@@ -34,6 +32,11 @@ namespace api_air_quality.Web
             services.AddMediatR(typeof(GetCitiesByCountryQuery).Assembly);
             services.AddMediatR(typeof(GetAirQualityForCityQuery).Assembly);
             services.AddScoped<IApiService, ApiService>();
+            services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddHttpClient<IApiService, ApiService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

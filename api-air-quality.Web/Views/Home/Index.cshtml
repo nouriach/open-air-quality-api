@@ -4,13 +4,19 @@
     ViewData["Title"] = "Home Page";
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page"><a asp-controller="Home" asp-action="Index">Select Country</a></li>
+    </ol>
+</nav>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Open Air Quality API</h1>
+    <p>Discover the Air Quality of Cities Around the World</a>.</p>
 </div>
 
 <div class="container">
-    <form method="post" asp-controller="Home" asp-action="Index">
+    <form method="post" asp-controller="Home" asp-action="Index" class="p-4 d-flex justify-content-center align-items-baseline">
         <select name="countryCodeRequest">
 
             @foreach (var country in Model.Countries.Countries)
@@ -18,7 +24,7 @@
                 <option value="@country.Key">@country.Value</option>
             }
         </select>
-        <div class="form-group">
+        <div class="form-group pl-4">
             <input type="submit" value="Select Country" class="btn btn-primary" />
         </div>
     </form>
@@ -27,46 +33,34 @@
 @{
     if (Model.Cities != null)
     {
-    <div>
-        <p>All cities in @Model.Cities.Country</p>
-        <p>Total cities: @Model.Cities.CitiesCount</p>
+    <div class="d-flex align-items-center flex-column">
+
+
+        @{
+            if (Model.Cities.Country == null)
+            {
+                <h3>No results</h3>
+            }
+            else
+            {
+                <h3>All cities in @Model.SelectedCountry</h3>
+                <h4>Total cities: @Model.Cities.CitiesCount</h4>
+            }
+        }
     </div>
     <div class="row">
-        @foreach (var test in Model.Cities.Cities)
+        @foreach (var location in Model.Cities.Cities)
         {
-            <div class="col-sm-6">
+            <div class="col-sm-6 p-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">@test</h5>
-                        <p class="card-text">The data for @test was last updated: @Model.Cities.LastUpdated</p>
-                        <a asp-controller="Home" asp-action="MoreInfo" asp-route-countryCodeRequest="@Model.Cities.Country" asp-route-cityRequest="@test" class="btn btn-primary">More Info</a>
+                        <h5 class="card-title">@location</h5>
+                        <p class="card-text">The data for @location was last updated: @Model.Cities.LastUpdated</p>
+                        <a asp-controller="Home" asp-action="MoreInfo" asp-route-countryCodeRequest="@Model.Cities.Country" asp-route-cityRequest="@location" class="btn btn-primary">More Info</a>
                     </div>
                 </div>
             </div>
         }
     </div>
-        }
-            }
-
-            @{
-                if (Model.Cities != null)
-                {
-
-                    <div class="container">
-                        <p>All cities in @Model.Cities.Country</p>
-                        <p>Total cities: @Model.Cities.CitiesCount</p>
-                        <form method="post" asp-controller="Home" asp-action="Index">
-                            <select name="cityCodeRequest">
-
-                                @foreach (var city in Model.Cities.Cities)
-                                {
-                                    <option value="@city">@city</option>
-                                }
-                            </select>
-                            <div class="form-group">
-                                <input type="submit" value="Select City" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-                }
-            }
+    }
+}

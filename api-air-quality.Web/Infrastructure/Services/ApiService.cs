@@ -12,29 +12,73 @@ namespace api_air_quality.Web.Infrastructure.Services
     public class ApiService : IApiService
     {
         private readonly string baseUrl = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/";
+        private HttpClient _httpClient;
+
+        public ApiService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+        /*
+        public async Task<Result<GitHubRepositoryDto>> GetRepository(int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"api/v1/repositories/{id}");
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                if (response.Content == null)
+                {
+                    return Result<GitHubRepositoryDto>.Fail("Response content was null");
+                }
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                var repository = JsonConvert.DeserializeObject<GitHubRepositoryDto>(responseJson);
+                return Result<GitHubRepositoryDto>.Ok(repository);
+            }
+        }
+        */
 
         public async Task<AirQuality> GetAirQualityForCityAsync(GetAirQualityForCityQuery query)
         {
-            HttpClient client = new HttpClient();
-            var content = await client.GetStringAsync($"{baseUrl}latest?city={query.CityName}&country={query.CountryCode}");
-            var airQualityData = JsonConvert.DeserializeObject<AirQuality>(content);
-            return airQualityData;
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUrl}latest?city={query.CityName}&country={query.CountryCode}");
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var contentResp = await response.Content.ReadAsStringAsync();
+                    var airQualityDataRes = JsonConvert.DeserializeObject<AirQuality>(contentResp);
+                    return airQualityDataRes;
+                }
+                return null;
+            }
         }
 
         public async Task<Countries> GetAllCountriesAsync(GetAllCountriesQuery query)
         {
-            HttpClient client = new HttpClient();
-            var content = await client.GetStringAsync($"{baseUrl}countries");
-            var countries = JsonConvert.DeserializeObject<Countries>(content);
-            return countries;
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUrl}countries");
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var contentResp = await response.Content.ReadAsStringAsync();
+                    var countriesRes = JsonConvert.DeserializeObject<Countries>(contentResp);
+                    return countriesRes;
+                }
+            }
+            return null;
         }
 
         public async Task<Cities> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query)
         {
-            HttpClient client = new HttpClient();
-            var content = await client.GetStringAsync($"{baseUrl}cities?country_id={query.CountryCode}");
-            var cities = JsonConvert.DeserializeObject<Cities>(content);
-            return cities;
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUrl}cities?country_id={query.CountryCode}");
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var contentResp = await response.Content.ReadAsStringAsync();
+                    var citiesRes = JsonConvert.DeserializeObject<Cities>(contentResp);
+                    return citiesRes;
+                }
+                return null;
+            }
         }
     }
 }

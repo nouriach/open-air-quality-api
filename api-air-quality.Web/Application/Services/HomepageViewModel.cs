@@ -24,8 +24,11 @@ namespace api_air_quality.Web.Application.Services
         {
             Cities = cities;
             Countries = countries;
+            SelectedCountry = countries.Countries.Where(c => c.Key == cities.Country).FirstOrDefault().Value;
         }
         public CitiesViewModel Cities { get; set; }
         public CountriesViewModel Countries { get; set; }
+        public string SelectedCountry { get; private set; }
+
     }
 }

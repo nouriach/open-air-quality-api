@@ -17,12 +17,10 @@ namespace api_air_quality.Web.Controllers
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger, IMediator mediator)
+        public HomeController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
@@ -33,7 +31,7 @@ namespace api_air_quality.Web.Controllers
             var countries = await _mediator.Send(query);
             CountriesViewModel countriesViewModel = new CountriesViewModel(countries);
 
-            HomepageViewModel hvm = new HomepageViewModel(null, countriesViewModel);
+            HomepageViewModel hvm = new HomepageViewModel(countriesViewModel);
 
             return View(hvm);
         }
@@ -41,7 +39,6 @@ namespace api_air_quality.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string countryCodeRequest)
         {
-            // GET ALL CITIES FROM A COUNTRY
             GetCitiesByCountryQuery query = new GetCitiesByCountryQuery
             {
                 CountryCode = countryCodeRequest
@@ -50,12 +47,10 @@ namespace api_air_quality.Web.Controllers
             var cities = await _mediator.Send(query);
             CitiesViewModel citiesViewModel = new CitiesViewModel(cities);
 
-            // GET ALL COUNTRIES
             GetAllCountriesQuery countriesQuery = new GetAllCountriesQuery();
             var countries = await _mediator.Send(countriesQuery);
             CountriesViewModel countriesViewModel = new CountriesViewModel(countries);
 
-            // BUILD HOMEPAGE
             HomepageViewModel hvm = new HomepageViewModel(citiesViewModel, countriesViewModel);
 
             return View(hvm);
@@ -63,7 +58,6 @@ namespace api_air_quality.Web.Controllers
 
         public async Task<IActionResult> MoreInfo(string countryCodeRequest, string cityRequest)
         {
-            //// GET AIR QUALITY DATA FOR A CITY
             GetAirQualityForCityQuery airQualityquery = new GetAirQualityForCityQuery()
             {
                 CityName = cityRequest,
@@ -74,11 +68,6 @@ namespace api_air_quality.Web.Controllers
             AirQualityViewModel airQualityViewModel = new AirQualityViewModel(airQualityData);
 
             return View(airQualityViewModel);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
