@@ -38,5 +38,28 @@ namespace api_air_quality.Web.Tests.ApplicationTests.ServicesTests.CitiesTests.H
             Assert.AreEqual(expected, actual);
 
         }
+
+        [Test]
+        public async Task QueryHandler_ReceivesQueryWithCountryCodeAndOrder_ThenReturnsCorrectObject()
+        {
+            // arrange
+            Mock<IApiService> service = new Mock<IApiService>();
+            GetCitiesByCountryQuery query = new GetCitiesByCountryQuery()
+            {
+                CountryCode = "AD",
+                Order = "ascending"
+            };
+            Cities cities = new Cities();
+            service.Setup(sut => sut.GetCitiesByCountryCodeAsync(query)).ReturnsAsync(cities);
+
+            // act
+            GetCitiesByCountryQueryHandler handler = new GetCitiesByCountryQueryHandler(service.Object);
+            var expected = cities;
+            var actual = await handler.Handle(query, CancellationToken.None);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
     }
 }
