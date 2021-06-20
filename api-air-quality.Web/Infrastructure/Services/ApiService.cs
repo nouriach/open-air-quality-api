@@ -18,23 +18,6 @@ namespace api_air_quality.Web.Infrastructure.Services
         {
             _httpClient = httpClient;
         }
-        /*
-        public async Task<Result<GitHubRepositoryDto>> GetRepository(int id)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"api/v1/repositories/{id}");
-            using (var response = await _httpClient.SendAsync(request))
-            {
-                if (response.Content == null)
-                {
-                    return Result<GitHubRepositoryDto>.Fail("Response content was null");
-                }
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                var repository = JsonConvert.DeserializeObject<GitHubRepositoryDto>(responseJson);
-                return Result<GitHubRepositoryDto>.Ok(repository);
-            }
-        }
-        */
 
         public async Task<AirQuality> GetAirQualityForCityAsync(GetAirQualityForCityQuery query)
         {
@@ -68,7 +51,9 @@ namespace api_air_quality.Web.Infrastructure.Services
 
         public async Task<Cities> GetCitiesByCountryCodeAsync(GetCitiesByCountryQuery query)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUrl}cities?country_id={query.CountryCode}");
+            var orderParam = query.Order == null ? "asc" : query.Order;
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUrl}cities?sort={orderParam}&country_id={query.CountryCode}");
             using (var response = await _httpClient.SendAsync(request))
             {
                 if (response.IsSuccessStatusCode)

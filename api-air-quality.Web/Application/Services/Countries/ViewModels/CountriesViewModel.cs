@@ -8,10 +8,7 @@ namespace api_air_quality.Web.Application.Services.Countries.ViewModels
 {
     public class CountriesViewModel
     {
-        public CountriesViewModel()
-        {
-
-        }
+        public CountriesViewModel(){}
         public CountriesViewModel(Domain.Models.Countries countriesInfo)
         {
             Countries = AddCountries(countriesInfo);
